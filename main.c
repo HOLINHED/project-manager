@@ -2,14 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define P_PATH "./test.dat"
-#define P_MAX 500
-
-#define S_NON "\033[0;36m[     ] \033[0m"
-#define S_LOW "\033[0;36m[ LOW ] \033[0m"
-#define S_MED "\033[0;33m[ MID ] \033[0m"
-#define S_HIG "\033[0;31m[ HIGH ]\033[0m"
-#define S_CRT "\033[1;31m[ CRIT ]\033[0m"
+#include "manual.h"
+#include "config.h"
 
 typedef struct pmjr_proj {
    char* name;
@@ -109,9 +103,9 @@ void get_proj(char* pname, size_t idx) {
    printf("%s %s\n", stat_msg[projects[index].status], pname);
 }
 
-void list_projs() {
+void list_projs(int pstat) {
    for (size_t i = 0; i < pjtop; i++) {
-      if (projects[i].valid == 1) get_proj(projects[i].name, i);  
+      if (projects[i].valid == 1 && projects[i].status > pstat) get_proj(projects[i].name, i);  
    }
 }
 
@@ -176,7 +170,10 @@ int main(int argc, char** argv) {
    else if (strcmp(argv[1], "promote") == 0) promote_proj(argv[2]);
    else if (strcmp(argv[1], "demote") == 0) demote_proj(argv[2]);
    else if (strcmp(argv[1], "get") == 0) get_proj(argv[2], P_MAX + 2);
-   else if (strcmp(argv[1], "list") == 0) list_projs();
+   else if (strcmp(argv[1], "list") == 0) list_projs(-1);
+   else if (strcmp(argv[1], "fetch") == 0) list_projs(atoi(argv[2]));
+   else if (strcmp(argv[1], "version") == 0) printf("%s\n", VERSION);
+   else if (strcmp(argv[1], "help") == 0) printf("%s\n", MANUAL);
    else printf("Unrecognized option \"%s\".\n", argv[1]);
 
    save_projs();
