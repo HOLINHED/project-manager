@@ -109,7 +109,22 @@ void list_projs(int pstat) {
    }
 }
 
-void load_projs() {
+void sort_projs(void) {
+   
+   for (int i = 0; i < pjtop; i++) {
+      int biggest = i;
+      for (int j = i; j < pjtop; j++) {
+         if (projects[j].status > projects[biggest].status) biggest = j;
+      }
+      if (projects[biggest].status > projects[i].status) {
+         PROJECT temp = projects[i];
+         projects[i] = projects[biggest];
+         projects[biggest] = temp;
+      }
+   }
+}
+
+void load_projs(void) {
 
    FILE* file = fopen(P_PATH, "r");
 
@@ -135,7 +150,7 @@ void load_projs() {
    fclose(file);
 }
 
-void save_projs() {
+void save_projs(void) {
 
    FILE* file = fopen(P_PATH, "w");
 
@@ -162,6 +177,7 @@ int main(int argc, char** argv) {
 
    projects = malloc(P_MAX * sizeof(PROJECT));
    load_projs();
+   sort_projs();
 
    if (status != 0) return status;
 
