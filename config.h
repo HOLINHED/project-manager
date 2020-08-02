@@ -1,8 +1,8 @@
 #ifndef H_CONFIG
 #define H_CONFIG
 
-#define P_PATH_r "/home/dawid/.pmang.dat"
-#define P_PATH "./test.dat"
+#define P_PATH "/home/dawid/.pmang.dat"
+#define P_PATH_DEV "./test.dat"
 #define P_MAX 500
 
 #define C_NON "\033[0;36m"

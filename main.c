@@ -16,6 +16,9 @@ static int status = 0;
 static PROJECT* projects;
 static size_t pjtop = 0;
 
+static size_t longest_name = 0;
+static size_t shortest_name = 0;
+
 size_t find_idx(char* pname) {
    for (size_t i = 0; i < pjtop; i++) 
       if (strcmp(projects[i].name, pname) == 0) return i;
@@ -105,6 +108,20 @@ void get_proj(char* pname, size_t idx) {
    printf("%s%s" C_RST " %s\n", stat_clr[pos], stat_msg[pos], pname);
 }
 
+void set_long_short(void) {
+   size_t longest = 0;
+   size_t shortest = __INT64_MAX__;
+
+   for (size_t i = 0; i < pjtop; i++) {
+      size_t len = strlen(projects[i].name);
+      if (len > longest) longest = len;
+      if (len < shortest) shortest = len;
+   }
+
+   longest_name = longest;
+   shortest_name = shortest;
+}
+
 void get_projl(char* pname, size_t idx) {
 
    size_t index = idx;
@@ -115,14 +132,7 @@ void get_projl(char* pname, size_t idx) {
       return;
    }
 
-   size_t longest = 0;
-
-   for (size_t i = 0; i < pjtop; i++) {
-      size_t len = strlen(projects[i].name);
-      if (len > longest) longest = len;
-   }
-
-   size_t l_diff = longest - strlen(projects[index].name) + 1;
+   size_t l_diff = longest_name - strlen(projects[index].name) + 1;
 
    const char* stat_clr[] = {C_NON, C_LOW, C_MED, C_HIG, C_CRT};
    const char* bar[] = {"", "#####", "##########", "###############", "####################"};
@@ -211,6 +221,7 @@ int main(int argc, char** argv) {
    projects = malloc(P_MAX * sizeof(PROJECT));
    load_projs();
    sort_projs();
+   set_long_short();
 
    if (status != 0) return status;
 
