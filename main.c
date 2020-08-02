@@ -3,8 +3,10 @@
 #include <string.h>
 
 #include "./lib/errmgr.h"
-#include "manual.h"
+#include "./lib/manual.h"
 #include "config.h"
+
+#define C_RST "\033[0m"
 
 typedef struct pmjr_proj {
    char* name;
