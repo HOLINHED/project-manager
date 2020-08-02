@@ -99,13 +99,46 @@ void get_proj(char* pname, size_t idx) {
    }
 
    const char* stat_msg[] = {S_NON, S_LOW, S_MED, S_HIG, S_CRT};
+   const char* stat_clr[] = {C_NON, C_LOW, C_MED, C_HIG, C_CRT};
+   const int pos = projects[index].status;
 
-   printf("%s %s\n", stat_msg[projects[index].status], pname);
+   printf("%s%s" C_RST " %s\n", stat_clr[pos], stat_msg[pos], pname);
 }
 
-void list_projs(int pstat) {
+void get_projl(char* pname, size_t idx) {
+
+   size_t index = idx;
+   if (index == P_MAX + 2) index = find_idx(pname);
+
+   if (index == P_MAX + 1) {
+      printf("Project \"%s\" not found.\n", pname);
+      return;
+   }
+
+   size_t longest = 0;
+
    for (size_t i = 0; i < pjtop; i++) {
-      if (projects[i].valid == 1 && projects[i].status > pstat) get_proj(projects[i].name, i);  
+      size_t len = strlen(projects[i].name);
+      if (len > longest) longest = len;
+   }
+
+   size_t l_diff = longest - strlen(projects[index].name) + 1;
+
+   const char* stat_clr[] = {C_NON, C_LOW, C_MED, C_HIG, C_CRT};
+   const char* bar[] = {"", "#####", "##########", "###############", "####################"};
+   const int pos = projects[index].status;
+
+   printf("%s%s" C_RST "%*c| %s\n", stat_clr[pos], projects[index].name, l_diff, ' ', bar[pos]);
+}
+
+void list_projs(int pstat, int ltype) {
+
+   void (*pfunc[2])(char*, size_t) = { get_proj, get_projl };
+
+   for (size_t i = 0; i < pjtop; i++) {
+      if (projects[i].valid == 1 && projects[i].status > pstat) {
+         (*pfunc[ltype])(projects[i].name, i);
+      }
    }
 }
 
@@ -171,7 +204,7 @@ void save_projs(void) {
 int main(int argc, char** argv) {
 
    if (argc > 3 || argc < 2) {
-      printf("Usage: %s <cmd> <pname>\n", *argv);
+      printf("Usage: pmang <cmd> <pname>\n", *argv);
       return 1;
    }
 
@@ -186,8 +219,9 @@ int main(int argc, char** argv) {
    else if (strcmp(argv[1], "promote") == 0) promote_proj(argv[2]);
    else if (strcmp(argv[1], "demote") == 0) demote_proj(argv[2]);
    else if (strcmp(argv[1], "get") == 0) get_proj(argv[2], P_MAX + 2);
-   else if (strcmp(argv[1], "list") == 0) list_projs(-1);
-   else if (strcmp(argv[1], "fetch") == 0) list_projs(atoi(argv[2]));
+   else if (strcmp(argv[1], "list") == 0 || strcmp(argv[1], "ls") == 0) list_projs(-1, 0);
+   else if (strcmp(argv[1], "llist") == 0 || strcmp(argv[1], "ll") == 0) list_projs(-1, 1);
+   else if (strcmp(argv[1], "fetch") == 0) list_projs(atoi(argv[2]), 0);
    else if (strcmp(argv[1], "version") == 0) printf("%s\n", VERSION);
    else if (strcmp(argv[1], "help") == 0) printf("%s\n", MANUAL);
    else printf("Unrecognized option \"%s\".\n", argv[1]);

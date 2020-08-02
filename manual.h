@@ -1,7 +1,7 @@
 #ifndef H_MANUAL
 #define H_MANUAL
 
-#define VERSION "0.2.0 (BETA)"
+#define VERSION "0.3.0 (BETA)"
 
 const static char* MANUAL = 
    "=====================================================================\n"
