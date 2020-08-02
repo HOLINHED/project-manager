@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "./lib/errmgr.h"
 #include "manual.h"
 #include "config.h"
 
@@ -33,7 +34,7 @@ void add_proj(char* pname, int pstat) {
    }
 
    if (find_idx(pname) != P_MAX + 1) {
-      printf("A project by that name already exists.\n");
+      print_err(E_ERR, "A project by that name already exists.");
       return;
    }
 
@@ -60,14 +61,14 @@ void promote_proj(char* pname) {
    size_t index = find_idx(pname);
 
    if (index == P_MAX + 1) {
-      printf("Project \"%s\" not found.\n", pname);
+      print_err(E_ERR, "Specified project not found.");
       return;
    }
 
    int new_status = projects[index].status + 1;
 
    if (new_status > 4) {
-      printf("\"%s\" priority is already at the highest.\n", pname);
+      print_err(E_ERR, "Project priority already at the highest.");
    } else {
       projects[index].status = new_status;
    }
@@ -78,14 +79,14 @@ void demote_proj(char* pname) {
    size_t index = find_idx(pname);
 
    if (index == P_MAX + 1) {
-      printf("Project \"%s\" not found.\n", pname);
+      print_err(E_ERR, "Specified project not found.");
       return;
    }
 
    int new_status = projects[index].status - 1;
 
    if (new_status < 0) {
-      printf("\"%s\" priority is already at the lowest.\n", pname);
+      print_err(E_ERR, "Project priority already at the lowest.");
    } else {
       projects[index].status = new_status;
    }
@@ -97,7 +98,7 @@ void get_proj(char* pname, size_t idx) {
    if (index == P_MAX + 2) index = find_idx(pname);
 
    if (index == P_MAX + 1) {
-      printf("Project \"%s\" not found.\n", pname);
+      print_err(E_ERR, "Specified project not found.");
       return;
    }
 
@@ -128,7 +129,7 @@ void get_projl(char* pname, size_t idx) {
    if (index == P_MAX + 2) index = find_idx(pname);
 
    if (index == P_MAX + 1) {
-      printf("Project \"%s\" not found.\n", pname);
+      print_err(E_ERR, "Specified project not found.");
       return;
    }
 
@@ -172,7 +173,7 @@ void load_projs(void) {
    FILE* file = fopen(P_PATH, "r");
 
    if (file == NULL) {
-      printf("[LOAD] Cannot open storage file.\n");
+      print_err(E_ERR, "[LOAD] Cannot open storage file.");
       status = 2;
       return;
    }
@@ -198,7 +199,7 @@ void save_projs(void) {
    FILE* file = fopen(P_PATH, "w");
 
    if (file == NULL) {
-      printf("[SAVE] Cannot open storage file.\n");
+      print_err(E_ERR, "[SAVE] Cannot open storage file.");
       status = 4;
       return;
    }

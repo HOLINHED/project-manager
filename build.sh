@@ -1,1 +1,1 @@
-gcc main.c -o pmang
+gcc main.c ./lib/errmgr.c -O3 -o pmang
