@@ -13,7 +13,7 @@ typedef struct pmjr_proj {
 
 static int status = 0;
 
-static PROJECT* projects;
+static PROJECT* projects;  
 static size_t pjtop = 0;
 
 static size_t longest_name = 0;
@@ -225,16 +225,16 @@ int main(int argc, char** argv) {
 
    if (status != 0) return status;
 
-   if (strcmp(argv[1], "add") == 0) add_proj(argv[2], 0);
-   else if (strcmp(argv[1], "remove") == 0) remove_proj(argv[2]);
-   else if (strcmp(argv[1], "promote") == 0) promote_proj(argv[2]);
-   else if (strcmp(argv[1], "demote") == 0) demote_proj(argv[2]);
-   else if (strcmp(argv[1], "get") == 0) get_proj(argv[2], P_MAX + 2);
+   if (strcmp(argv[1], "add") == 0 || strcmp(argv[1], "a") == 0) add_proj(argv[2], 0);
+   else if (strcmp(argv[1], "remove" ) == 0 || strcmp(argv[1], "r") == 0) remove_proj(argv[2]);
+   else if (strcmp(argv[1], "promote") == 0 || strcmp(argv[1], "p") == 0) promote_proj(argv[2]);
+   else if (strcmp(argv[1], "demote") == 0 || strcmp(argv[1], "d") == 0) demote_proj(argv[2]);
+   else if (strcmp(argv[1], "get") == 0 || strcmp(argv[1], "g") == 0) get_proj(argv[2], P_MAX + 2);
    else if (strcmp(argv[1], "list") == 0 || strcmp(argv[1], "ls") == 0) list_projs(-1, 0);
    else if (strcmp(argv[1], "llist") == 0 || strcmp(argv[1], "ll") == 0) list_projs(-1, 1);
-   else if (strcmp(argv[1], "fetch") == 0) list_projs(atoi(argv[2]), 0);
-   else if (strcmp(argv[1], "version") == 0) printf("%s\n", VERSION);
-   else if (strcmp(argv[1], "help") == 0) printf("%s\n", MANUAL);
+   else if (strcmp(argv[1], "fetch") == 0 || strcmp(argv[1], "f") == 0) list_projs(atoi(argv[2]), 0);
+   else if (strcmp(argv[1], "version") == 0 || strcmp(argv[1], "v") == 0) printf("PMang v%s\n", VERSION);
+   else if (strcmp(argv[1], "help") == 0 || strcmp(argv[1], "h") == 0) printf("%s\n", MANUAL);
    else printf("Unrecognized option \"%s\".\n", argv[1]);
 
    save_projs();
