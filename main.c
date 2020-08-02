@@ -233,8 +233,8 @@ int main(int argc, char** argv) {
    else if (strcmp(argv[1], "list") == 0 || strcmp(argv[1], "ls") == 0) list_projs(-1, 0);
    else if (strcmp(argv[1], "llist") == 0 || strcmp(argv[1], "ll") == 0) list_projs(-1, 1);
    else if (strcmp(argv[1], "fetch") == 0 || strcmp(argv[1], "f") == 0) list_projs(atoi(argv[2]), 0);
-   else if (strcmp(argv[1], "version") == 0 || strcmp(argv[1], "v") == 0) printf("PMang v%s\n", VERSION);
-   else if (strcmp(argv[1], "help") == 0 || strcmp(argv[1], "h") == 0) printf("%s\n", MANUAL);
+   else if (strcmp(argv[1], "version") == 0 || strcmp(argv[1], "v") == 0) puts("PMang v" VERSION);
+   else if (strcmp(argv[1], "help") == 0 || strcmp(argv[1], "h") == 0) puts(MANUAL);
    else printf("Unrecognized option \"%s\".\n", argv[1]);
 
    save_projs();
