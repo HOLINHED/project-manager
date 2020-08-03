@@ -169,6 +169,21 @@ int get(int argc, char** argv) {
    return OK;
 }
 
+int rename_proj(int argc, char** argv) {
+
+   if (argc != 2) return INVALID_ARGS;
+
+   const int index = find_idx(argv[0]);
+   
+   if (index == P_MAX + 1) return PROJ_DNE;
+
+   projects[index].name = realloc(projects[index].name, (strlen(argv[1]) + 1) * sizeof(char));
+
+   strcpy(projects[index].name, argv[1]);
+
+   return OK;
+}
+
 int list(int argc, char** argv, int type) {
 
    if (argc > 1) return INVALID_ARGS;
@@ -215,6 +230,7 @@ int main(int argc, char** argv) {
    else if (argcmp(cmd, "list", "ls")) status = list(argc, argv, 0);
    else if (argcmp(cmd, "llist", "ll")) status = list(argc, argv, 1);
    else if (argcmp(cmd, "clear", "c")) status = clear(argc, argv);
+   else if (argcmp(cmd, "rename", "rn")) status = rename_proj(argc, argv);
    else if (argcmp(cmd, "version", "v")) puts("PMang v" VERSION);
    else if (argcmp(cmd, "help", "h")) puts(MANUAL);
    else status = INVALID_CMD;
