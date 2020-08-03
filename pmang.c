@@ -215,7 +215,7 @@ int main(int argc, char** argv) {
    else if (argcmp(cmd, "list", "ls")) status = list(argc, argv, 0);
    else if (argcmp(cmd, "llist", "ll")) status = list(argc, argv, 1);
    else if (argcmp(cmd, "clear", "c")) status = clear(argc, argv);
-   else if (argcmp(cmd, "version", "v")) puts("Pmang v" VERSION);
+   else if (argcmp(cmd, "version", "v")) puts("PMang v" VERSION);
    else if (argcmp(cmd, "help", "h")) puts(MANUAL);
    else status = INVALID_CMD;
 
