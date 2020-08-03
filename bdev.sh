@@ -1,1 +1,1 @@
-gcc main.c ./lib/errmgr.c
+gcc pmang.c ./lib/errmgr.c ./lib/proj_file.c
