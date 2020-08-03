@@ -1,7 +1,7 @@
 #ifndef H_MANUAL
 #define H_MANUAL
 
-#define VERSION "0.4.2 r1"
+#define VERSION "0.4.3 r1"
 
 #define MANUAL \
    "=====================================================================\n" \

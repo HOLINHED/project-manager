@@ -11,6 +11,9 @@
 #define argcmp(x, y, z) strcmp(x, y) == 0 || strcmp(x,z) == 0
 #define C_RST "\033[0m"
 
+const static char* stat_msg[] = {S_NON, S_LOW, S_MED, S_HIG, S_CRT};
+const static char* stat_clr[] = {C_NON, C_LOW, C_MED, C_HIG, C_CRT};
+
 static int status = 0;
 
 static PROJECT* projects;
@@ -31,8 +34,6 @@ void print_proj(char* pname, size_t idx) {
    if (index == P_MAX + 2) index = find_idx(pname);
 
    if (index != P_MAX + 1) {
-      const char* stat_msg[] = {S_NON, S_LOW, S_MED, S_HIG, S_CRT};
-      const char* stat_clr[] = {C_NON, C_LOW, C_MED, C_HIG, C_CRT};
       const int pos = projects[index].status;
 
       printf("%s%s" C_RST " %s\n", stat_clr[pos], stat_msg[pos], pname);
@@ -51,7 +52,6 @@ void print_projl(char* pname, size_t idx) {
 
    size_t l_diff = longest_name - strlen(projects[index].name) + 1;
 
-   const char* stat_clr[] = {C_NON, C_LOW, C_MED, C_HIG, C_CRT};
    const char* bar[] = {"", "#####", "##########", "###############", "####################"};
    const int pos = projects[index].status;
 
