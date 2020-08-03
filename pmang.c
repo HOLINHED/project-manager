@@ -205,6 +205,7 @@ int main(int argc, char** argv) {
 
    if (argc < 2) {
       print_err(E_NOTE, "Usage: pmang <cmd> <args...>");
+      print_err(E_NOTEC, "Run help (h) for more information.");
       return USAGE;
    }
 
