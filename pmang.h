@@ -25,5 +25,7 @@ int get_proj(int argc, char** argv);
 int clear(int argc, char** argv);
 int get(int argc, char** argv);
 int rename_proj(int argc, char** argv);
+int set_curr(int argc, char** argv);
+int get_curr(int argc, char** argv);
 
 #endif

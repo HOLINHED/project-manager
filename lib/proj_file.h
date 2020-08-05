@@ -5,8 +5,8 @@
 
 #include "../pmang.h"
 
-void load(PROJECT*, size_t*, int*);
+void load(PROJECT*, size_t*, int*, size_t*);
 
-void save(PROJECT*, size_t*, int*);
+void save(PROJECT*, size_t*, int*, size_t);
 
 #endif

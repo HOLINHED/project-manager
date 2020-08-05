@@ -6,7 +6,7 @@
 #include "err_codes.h"
 #include "../config.h"
 
-void load(PROJECT* projects, size_t* pjtop, int* status) {
+void load(PROJECT* projects, size_t* pjtop, int* status, size_t* p_curr) {
 
    FILE* file = fopen(P_PATH, "r");
 
@@ -19,8 +19,14 @@ void load(PROJECT* projects, size_t* pjtop, int* status) {
    char* cline = NULL;
    size_t len = 0;
    size_t read = 0;
+   size_t line = 0;
 
    while((read = getline(&cline, &len, file)) != EOF) {
+
+      if (line++ == 0) {
+         *p_curr = atoi(cline);
+         continue;
+      }
 
       char* pname = strtok(cline, " ");
       int pstat = atoi(strtok(NULL, " "));
@@ -40,7 +46,7 @@ void load(PROJECT* projects, size_t* pjtop, int* status) {
    fclose(file);
 }
 
-void save(PROJECT* projects, size_t* pjtop, int* status) {
+void save(PROJECT* projects, size_t* pjtop, int* status, size_t p_curr) {
 
    FILE* file = fopen(P_PATH, "w");
 
@@ -49,6 +55,8 @@ void save(PROJECT* projects, size_t* pjtop, int* status) {
       *status = 4;
       return;
    }
+
+   fprintf(file, "%ld\n", p_curr);
 
    for (size_t i = 0; i < *pjtop; i++) {
       if (projects[i].valid == 1) 

@@ -18,6 +18,7 @@ static int status = 0;
 
 static PROJECT* projects;
 static size_t pjtop = 0;
+static size_t p_curr = P_MAX + 1;
 
 static size_t longest_name = 0;
 static size_t shortest_name = 0;
@@ -36,7 +37,7 @@ void print_proj(char* pname, size_t idx) {
    if (index != P_MAX + 1) {
       const int pos = projects[index].status;
 
-      printf("%s%s" C_RST " %s\n", stat_clr[pos], stat_msg[pos], pname);
+      printf("%s%s" C_RST " %s%s\n", stat_clr[pos], stat_msg[pos], index == p_curr ? C_CUR : "\0", pname);
    }
 }
 
@@ -52,10 +53,11 @@ void print_projl(char* pname, size_t idx) {
 
    size_t l_diff = longest_name - strlen(projects[index].name) + 1;
 
-   const char* bar[] = {"", "#####", "##########", "###############", "####################"};
+   const char* bar[] = {"#", "######", "###########", "################", "#####################"};
    const int pos = projects[index].status;
 
-   printf("%s%s" C_RST "%*c| %s\n", stat_clr[pos], projects[index].name, l_diff, ' ', bar[pos]);
+   printf("%s%s" C_RST "%*c| %s%s\n", stat_clr[pos], projects[index].name, l_diff, ' ', 
+          index == p_curr ? C_CUR : "\0", bar[pos]);
 }
 
 void set_long_short(void) {
@@ -116,6 +118,8 @@ int remove_proj(int argc, char** argv) {
    size_t index = find_idx(argv[0]);
 
    if (index == P_MAX + 1) return PROJ_DNE;
+
+   if (p_curr == index) p_curr = P_MAX + 1;
 
    projects[index].valid = 0;
    
@@ -201,6 +205,31 @@ int list(int argc, char** argv, int type) {
    return OK;
 }
 
+int set_curr(int argc, char** argv) {
+
+   if (argc != 1) return INVALID_ARGS;
+
+   size_t index = find_idx(*argv);
+
+   if (index == P_MAX + 1) return PROJ_DNE;
+
+   p_curr = index;
+}
+
+int get_curr(int argc, char** argv) {
+
+   if (argc != 0) return INVALID_ARGS;
+
+   if (p_curr == P_MAX + 1) {
+      print_err(E_NOTE, "There is no current task.");
+      return OK;
+   }
+
+   printf(C_CUR "Current Task: " C_RST "%s\n", projects[p_curr].name);
+
+   return OK;
+}
+
 int main(int argc, char** argv) {
 
    if (argc < 2) {
@@ -216,7 +245,7 @@ int main(int argc, char** argv) {
 
    projects = malloc(P_MAX * sizeof(PROJECT));
 
-   load(projects, &pjtop, &status);
+   load(projects, &pjtop, &status, &p_curr);
 
    if (status != 0) return status;
 
@@ -229,6 +258,8 @@ int main(int argc, char** argv) {
    else if (argcmp(cmd, "demote", "d")) status = pd_proj(argc, argv, 1);
    else if (argcmp(cmd, "get", "g")) status = get(argc, argv);
    else if (argcmp(cmd, "list", "ls")) status = list(argc, argv, 0);
+   else if (argcmp(cmd, "setcurr", "sc")) status = set_curr(argc, argv);
+   else if (argcmp(cmd, "current", "cr")) status = get_curr(argc, argv);
    else if (argcmp(cmd, "llist", "ll")) status = list(argc, argv, 1);
    else if (argcmp(cmd, "clear", "c")) status = clear(argc, argv);
    else if (argcmp(cmd, "rename", "rn")) status = rename_proj(argc, argv);
@@ -236,7 +267,7 @@ int main(int argc, char** argv) {
    else if (argcmp(cmd, "help", "h")) puts(MANUAL);
    else status = INVALID_CMD;
 
-   save(projects, &pjtop, &status);
+   save(projects, &pjtop, &status, p_curr);
 
    switch(status) {
       case INVALID_ARGS: print_err(E_ERR, "Invalid arguments for command."); break;
