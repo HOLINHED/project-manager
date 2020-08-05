@@ -214,6 +214,8 @@ int set_curr(int argc, char** argv) {
    if (index == P_MAX + 1) return PROJ_DNE;
 
    p_curr = index;
+
+   return OK;
 }
 
 int get_curr(int argc, char** argv) {

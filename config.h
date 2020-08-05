@@ -2,8 +2,8 @@
 #define H_CONFIG
 
 /* Path to save file */
-#define P_PATH_P "/home/dawid/.pmang.dat"
-#define P_PATH "./test.dat"
+#define P_PATH "/home/dawid/.pmang.dat"
+#define P_PATH_DEV "./test.dat"
 
 /* Maximum amount of projects */
 #define P_MAX 500
