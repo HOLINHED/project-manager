@@ -3,7 +3,7 @@
 
 #include "../config.h"
 
-#define VERSION "0.5.1"
+#define VERSION "0.5.2"
 
 #define MANUAL \
    "                           ╔═════════════════════════╗\n" \
@@ -25,6 +25,7 @@
    " ║ \033[32mpromote\033[0m [p]  ║ Increases project priority.                                  ║\n" \
    " ║ \033[32mdemote\033[0m  [d]  ║ Decreases project priority.                                  ║\n" \
    " ║ \033[32msetcurr\033[0m [sc] ║ Sets the current task.                                       ║\n" \
+   " ║ \033[32mrmcurr\033[0m  [rc] ║ Unsets current task.                                         ║\n" \
    " ║ \033[32mcurrent\033[0m [cr] ║ Displays the current task.                                   ║\n" \
    " ║ \033[32mrename\033[0m  [rn] ║ Rename a project.                                            ║\n" \
    " ║ \033[32mlist\033[0m    [ls] ║ Lists all projects.                                          ║\n" \

@@ -232,6 +232,12 @@ int get_curr(int argc, char** argv) {
    return OK;
 }
 
+int unset_curr(int argc, char** argv) {
+   if (argc != 0) return INVALID_ARGS;
+   p_curr = P_MAX + 1;
+   return OK;
+}
+
 int main(int argc, char** argv) {
 
    if (argc < 2) {
@@ -262,6 +268,7 @@ int main(int argc, char** argv) {
    else if (argcmp(cmd, "list", "ls")) status = list(argc, argv, 0);
    else if (argcmp(cmd, "setcurr", "sc")) status = set_curr(argc, argv);
    else if (argcmp(cmd, "current", "cr")) status = get_curr(argc, argv);
+   else if (argcmp(cmd, "rmcurr", "rc")) status = unset_curr(argc, argv);
    else if (argcmp(cmd, "llist", "ll")) status = list(argc, argv, 1);
    else if (argcmp(cmd, "clear", "c")) status = clear(argc, argv);
    else if (argcmp(cmd, "rename", "rn")) status = rename_proj(argc, argv);
