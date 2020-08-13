@@ -15,6 +15,6 @@
 #define E_WARC_L "\033[0;33m        \033[0m"
 #define E_ERRC_L "\033[0;31m      \033[0m"
 
-void print_err(int, char*);
+void print_err(int, const char*, ...);
 
 #endif

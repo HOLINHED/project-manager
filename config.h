@@ -1,9 +1,12 @@
 #ifndef H_CONFIG
 #define H_CONFIG
 
+/* General */
+#define ALIAS_NAME "pmang"
+
 /* Path to save file */
-#define P_PATH_D "/home/dawid/.pmang.dat"
-#define P_PATH "./test.dat"
+#define P_PATH "/home/dawid/.pmang.dat"
+#define P_PATH_D "./test.dat"
 
 /* Maximum amount of projects */
 #define P_MAX 500

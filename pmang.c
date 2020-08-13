@@ -11,8 +11,8 @@
 #define argcmp(x, y, z) strcmp(x, y) == 0 || strcmp(x,z) == 0
 #define C_RST "\033[0m"
 
-const static char* stat_msg[] = {S_NON, S_LOW, S_MED, S_HIG, S_CRT};
-const static char* stat_clr[] = {C_NON, C_LOW, C_MED, C_HIG, C_CRT};
+const static char* stat_msg[] = { S_NON, S_LOW, S_MED, S_HIG, S_CRT };
+const static char* stat_clr[] = { C_NON, C_LOW, C_MED, C_HIG, C_CRT };
 
 static int status = 0;
 
@@ -241,7 +241,7 @@ int unset_curr(int argc, char** argv) {
 int main(int argc, char** argv) {
 
    if (argc < 2) {
-      print_err(E_NOTE, "Usage: pmang <cmd> <args...>");
+      print_err(E_NOTE, "Usage: " ALIAS_NAME " <cmd> <args...>");
       print_err(E_NOTEC, "Run help (h) for more information.");
       return USAGE;
    }
@@ -266,10 +266,10 @@ int main(int argc, char** argv) {
    else if (argcmp(cmd, "demote", "d")) status = pd_proj(argc, argv, 1);
    else if (argcmp(cmd, "get", "g")) status = get(argc, argv);
    else if (argcmp(cmd, "list", "ls")) status = list(argc, argv, 0);
+   else if (argcmp(cmd, "llist", "ll")) status = list(argc, argv, 1);
    else if (argcmp(cmd, "setcurr", "sc")) status = set_curr(argc, argv);
    else if (argcmp(cmd, "current", "cr")) status = get_curr(argc, argv);
    else if (argcmp(cmd, "rmcurr", "rc")) status = unset_curr(argc, argv);
-   else if (argcmp(cmd, "llist", "ll")) status = list(argc, argv, 1);
    else if (argcmp(cmd, "clear", "c")) status = clear(argc, argv);
    else if (argcmp(cmd, "rename", "rn")) status = rename_proj(argc, argv);
    else if (argcmp(cmd, "version", "v")) puts("PMang v" VERSION);
@@ -279,11 +279,11 @@ int main(int argc, char** argv) {
    save(projects, &pjtop, &status, p_curr);
 
    switch(status) {
-      case INVALID_ARGS: print_err(E_ERR, "Invalid arguments for command."); break;
-      case PROJ_DNE: print_err(E_ERR, "Specified project not found."); break;
-      case INVALID_CMD: print_err(E_ERR, "Command not found."); break;
-      case PROJ_LIMIT: print_err(E_ERR, "Project limit has been reached."); break;
-      case PROJ_EXISTS: print_err(E_ERR, "A project by that name already exists."); break;
+      case INVALID_ARGS: print_err(E_ERR, "Invalid arguments for command \"%s\".", *(argv - 1)); break;
+      case PROJ_DNE: print_err(E_ERR, "Project \"%s\" not found.", *argv); break;
+      case INVALID_CMD: print_err(E_ERR, "Command \"%s\" not found.", *(argv - 1)); break;
+      case PROJ_LIMIT: print_err(E_ERR, "Project limit has been reached (%ld).", P_MAX); break;
+      case PROJ_EXISTS: print_err(E_ERR, "Project \"%s\" already exists.", *argv); break;
       case ADD_INVALID_STATUS: print_err(E_ERR, "Invalid initial priority for add. Must be between 0 and 4."); break;
       case PD_MAX: print_err(E_ERR, "Project priority already at the highest."); break;
       case PD_MIN: print_err(E_ERR, "Project priority already at the lowest."); break;

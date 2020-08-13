@@ -3,7 +3,7 @@
 
 #include "../config.h"
 
-#define VERSION "0.5.2"
+#define VERSION "0.5.3"
 
 #define MANUAL \
    "                           ╔═════════════════════════╗\n" \
@@ -11,7 +11,7 @@
    " ║                         ╚═════════════════════════╝                         ║\n" \
    " ║ Version: " VERSION "                                                              ║\n" \
    " ║                                                                             ║\n" \
-   " ║ Usage: pmang <cmd> <?args>                                                  ║\n" \
+   " ║ Usage: " ALIAS_NAME " <cmd> <args...>                                                ║\n" \
    " ║                                                                             ║\n" \
    " ║ Status:                                                                     ║\n" \
    " ║   "C_NON"0 - Idea "C_RST"                                                                 ║\n" \
