@@ -11,9 +11,9 @@
 #define E_MSG_L "\033[0;36mNote:\033[0m"
 #define E_WAR_L "\033[0;33mWarning:\033[0m"
 #define E_ERR_L "\033[0;31mError:\033[0m"
-#define E_MSGC_L "\033[0;36m     \033[0m"
-#define E_WARC_L "\033[0;33m        \033[0m"
-#define E_ERRC_L "\033[0;31m      \033[0m"
+#define E_MSGC_L "     "
+#define E_WARC_L "        "
+#define E_ERRC_L "      "
 
 void print_err(int, const char*, ...);
 

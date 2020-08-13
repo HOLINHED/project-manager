@@ -3,7 +3,7 @@
 
 #include "../config.h"
 
-#define VERSION "0.5.3"
+#define VERSION "0.5.4"
 
 #define MANUAL \
    "                           ╔═════════════════════════╗\n" \
