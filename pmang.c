@@ -153,6 +153,17 @@ int clear(int argc, char** argv) {
 
    const int clear_stat = argc == 1 ? atoi(argv[0]) : -1;
 
+   if (clear_stat == -1) {
+      print_err(E_WARN, "You are about to clear all projects.");
+      print_err(E_WARNC, "Type in \"CONFIRM\" to continue.");
+
+      char input[100];
+      printf("> ");
+      scanf("%s", &input);
+
+      if (strcmp(input, "CONFIRM") != 0) return OK;
+   }
+
    for (size_t i = 0; i < pjtop; i++) {
       if (clear_stat == -1 || projects[i].status == clear_stat) {
          projects[i].valid = 0;

@@ -5,8 +5,8 @@
 #define ALIAS_NAME "pmang"
 
 /* Path to save file */
-#define P_PATH "/home/dawid/.pmang.dat"
-#define P_PATH_D "./test.dat"
+#define P_PATHD "/home/dawid/.pmang.dat"
+#define P_PATH "./test.dat"
 
 /* Maximum amount of projects */
 #define P_MAX 500
