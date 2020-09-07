@@ -99,8 +99,13 @@ int add_proj(int argc, char** argv) {
 
    if (pstat > 4 || pstat < 0) return ADD_INVALID_STATUS;
 
+   const size_t nsize = strlen(argv[0]);
+   for (size_t i = 0; i < nsize; i++) {
+      if (argv[0][i] == ' ') argv[0][i] = '_';
+   }
+
    PROJECT to_ins;
-   to_ins.name = malloc((strlen(argv[0]) + 1) * sizeof(char));
+   to_ins.name = malloc((nsize + 1) * sizeof(char));
    to_ins.status = pstat;
    to_ins.valid = 1;
 
