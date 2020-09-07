@@ -5,11 +5,11 @@
 #include "config.h"
 #include "./lib/errmgr.h"
 #include "./lib/manual.h"
+#include "./lib/info.h"
 #include "./lib/err_codes.h"
 #include "./lib/proj_file.h"
 
 #define argcmp(x, y, z) strcmp(x, y) == 0 || strcmp(x,z) == 0
-#define C_RST "\033[0m"
 
 const static char* stat_msg[] = { S_NON, S_LOW, S_MED, S_HIG, S_CRT };
 const static char* stat_clr[] = { C_NON, C_LOW, C_MED, C_HIG, C_CRT };
@@ -53,10 +53,10 @@ void print_projl(char* pname, size_t idx) {
 
    size_t l_diff = longest_name - strlen(projects[index].name) + 1;
 
-   const char* bar[] = {"#", "######", "###########", "################", "#####################"};
+   const char* bar[] = {"■", "■■■■■■", "■■■■■■■■■■■", "■■■■■■■■■■■■■■■■", "■■■■■■■■■■■■■■■■■■■■■"};
    const int pos = projects[index].status;
 
-   printf("%s%s" C_RST "%*c| %s%s\n", stat_clr[pos], projects[index].name, l_diff, ' ', 
+   printf("%s%s" C_RST "%*c│ %s%s\n", stat_clr[pos], projects[index].name, l_diff, ' ', 
           index == p_curr ? C_CUR : "\0", bar[pos]);
 }
 
@@ -271,20 +271,24 @@ int main(int argc, char** argv) {
    sort_projs();
    set_long_short();
 
-   if (argcmp(cmd, "add", "a")) status = add_proj(argc, argv);
-   else if (argcmp(cmd, "remove", "r")) status = remove_proj(argc, argv);
-   else if (argcmp(cmd, "promote", "p")) status = pd_proj(argc, argv, 0);
-   else if (argcmp(cmd, "demote", "d")) status = pd_proj(argc, argv, 1);
-   else if (argcmp(cmd, "get", "g")) status = get(argc, argv);
-   else if (argcmp(cmd, "list", "ls")) status = list(argc, argv, 0);
-   else if (argcmp(cmd, "llist", "ll")) status = list(argc, argv, 1);
-   else if (argcmp(cmd, "setcurr", "sc")) status = set_curr(argc, argv);
-   else if (argcmp(cmd, "current", "cr")) status = get_curr(argc, argv);
-   else if (argcmp(cmd, "rmcurr", "rc")) status = unset_curr(argc, argv);
-   else if (argcmp(cmd, "clear", "c")) status = clear(argc, argv);
-   else if (argcmp(cmd, "rename", "rn")) status = rename_proj(argc, argv);
-   else if (argcmp(cmd, "version", "v")) puts("PMang v" VERSION);
-   else if (argcmp(cmd, "help", "h")) puts(MANUAL);
+        if (argcmp(cmd, CMD_ADD, CMD_ADD_A)) status = add_proj(argc, argv);
+   else if (argcmp(cmd, CMD_REM, CMD_REM_A)) status = remove_proj(argc, argv);
+   else if (argcmp(cmd, CMD_PRM, CMD_PRM_A)) status = pd_proj(argc, argv, 0);
+   else if (argcmp(cmd, CMD_DMT, CMD_DMT_A)) status = pd_proj(argc, argv, 1);
+   else if (argcmp(cmd, CMD_GET, CMD_GET_A)) status = get(argc, argv);
+   else if (argcmp(cmd, CMD_LST, CMD_LST_A)) status = list(argc, argv, 0);
+   else if (argcmp(cmd, CMD_LLT, CMD_LLT_A)) status = list(argc, argv, 1);
+   else if (argcmp(cmd, CMD_SCR, CMD_SCR_A)) status = set_curr(argc, argv);
+   else if (argcmp(cmd, CMD_CUR, CMD_CUR_A)) status = get_curr(argc, argv);
+   else if (argcmp(cmd, CMD_RCR, CMD_RCR_A)) status = unset_curr(argc, argv);
+   else if (argcmp(cmd, CMD_CLR, CMD_CLR_A)) status = clear(argc, argv);
+   else if (argcmp(cmd, CMD_RNM, CMD_RNM_A)) status = rename_proj(argc, argv);
+   else if (argcmp(cmd, CMD_VER, CMD_VER_A)) puts("PMang v" VERSION);
+   else if (argcmp(cmd, CMD_HLP, CMD_HLP_A)) puts(MANUAL);
+   else if (argcmp(cmd, CMD_RBD, CMD_RBD_A)) {
+      int r = system(BUILD_CMD);
+      print_err(E_NOTE, "Build process exited with status \"%d\"", r);
+   }
    else status = INVALID_CMD;
 
    save(projects, &pjtop, &status, p_curr);

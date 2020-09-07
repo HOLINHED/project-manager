@@ -1,1 +1,1 @@
-gcc pmang.c ./lib/errmgr.c ./lib/proj_file.c -O3 -o pmang
+sh make.sh .

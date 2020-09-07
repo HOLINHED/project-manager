@@ -1,1 +1,0 @@
-gcc pmang.c ./lib/errmgr.c ./lib/proj_file.c

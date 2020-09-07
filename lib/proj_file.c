@@ -12,7 +12,16 @@ void load(PROJECT* projects, size_t* pjtop, int* status, size_t* p_curr) {
 
    if (file == NULL) {
       print_err(E_ERR, "[LOAD] Cannot open storage file.");
-      *status = 2;
+      print_err(E_NOTE, "Attempting file creation...");
+      file = fopen(P_PATH, "w");
+      if (file) {
+         fprintf(file, "%d\n", P_MAX + 1);
+         print_err(E_NOTEC, "Automatic file creation success!");
+         fclose(file);
+      } else {
+         print_err(E_ERR, "Automatic file creation failed.");
+         *status = 2;
+      }
       return;
    }
 
