@@ -26,6 +26,7 @@ int main(int argc, char** argv) {
    {CMD_RBD,      CMD_RBD_A,    "Rebuilds binary."},
    {CMD_VER,      CMD_VER_A,    "Displays version of program."},
    {CMD_HLP,      CMD_HLP_A,    "Displays this menu."},
+   {CMD_INF,      CMD_INF_A,    "Displays config information."},
    };
 
    int vdist = 67 - (int)strlen(VERSION);

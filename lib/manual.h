@@ -36,6 +36,7 @@
 "║ \033[32mrebuild\033[0m [rb] ║ Rebuilds binary.                                             ║\n" \
 "║ \033[32mversion\033[0m [v]  ║ Displays version of program.                                 ║\n" \
 "║ \033[32mhelp\033[0m    [h]  ║ Displays this menu.                                          ║\n" \
+"║ \033[32minfo\033[0m    [i]  ║ Displays config information.                                 ║\n" \
 "╚══════════════╩══════════════════════════════════════════════════════════════╝"
 
 #endif

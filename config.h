@@ -7,11 +7,11 @@
 #define BUILD_CMD "sh " INSTALL_PATH "/make.sh " INSTALL_PATH
 
 /* Path to save file */
-#define P_PATH "/home/dawid/.pmang.dat"
+#define P_PATH "/home/dawid/.cache/pmang/pmang.dat"
 #define P_PATH_D "./test.dat"
 
 /* Maximum amount of projects */
-#define P_MAX 500
+#define P_MAX 25
 
 /* Command Friendly Names */
 #define CMD_ADD "add"
@@ -44,6 +44,8 @@
 #define CMD_VER_A "v"
 #define CMD_HLP "help"
 #define CMD_HLP_A "h"
+#define CMD_INF "info"
+#define CMD_INF_A "i"
 
 /* Colors for each status */
 #define C_NON "\033[0;36m"

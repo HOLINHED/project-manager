@@ -125,6 +125,14 @@ int main(int argc, char** argv) {
    else if (argcmp(cmd, CMD_RNM, CMD_RNM_A)) status = rename_proj(argc, argv);
    else if (argcmp(cmd, CMD_VER, CMD_VER_A)) puts("Pmang v" VERSION);
    else if (argcmp(cmd, CMD_HLP, CMD_HLP_A)) puts(MANUAL);
+   else if (argcmp(cmd, CMD_INF, CMD_INF_A)) {
+      puts("Version " VERSION);
+      puts("Alias: " ALIAS_NAME);
+      puts("Source Path: " INSTALL_PATH);
+      puts("Storage Path: " P_PATH);
+      puts("Build CMD: " BUILD_CMD);
+      printf("Projects: %ld/%ld (%.1f%) \n", pjtop, P_MAX, (double)pjtop / P_MAX * 100);
+   }
    else if (argcmp(cmd, CMD_RBD, CMD_RBD_A)) {
       int r = system(BUILD_CMD);
       print_err(E_NOTE, "Build process exited with status \"%d\"", r);
