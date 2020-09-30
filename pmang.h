@@ -15,6 +15,7 @@ void print_proj(char* pname, size_t idx);
 void print_projl(char* pname, size_t idx);
 void set_long_short(void);
 void sort_projs(void);
+size_t find_idx(char*);
 
 int list(int argc, char** argv, int type);
 int pd_proj(int argc, char** argv, int type);
@@ -27,5 +28,6 @@ int get(int argc, char** argv);
 int rename_proj(int argc, char** argv);
 int set_curr(int argc, char** argv);
 int get_curr(int argc, char** argv);
+int unset_curr(int argc, char** argv);
 
 #endif

@@ -16,9 +16,9 @@ const static char* stat_clr[] = { C_NON, C_LOW, C_MED, C_HIG, C_CRT };
 
 static int status = 0;
 
-static PROJECT* projects;
-static size_t pjtop = 0;
-static size_t p_curr = P_MAX + 1;
+PROJECT* projects;
+size_t pjtop = 0;
+size_t p_curr = P_MAX + 1;
 
 static size_t longest_name = 0;
 static size_t shortest_name = 0;
@@ -89,171 +89,6 @@ void sort_projs(void) {
    }
 }
 
-int add_proj(int argc, char** argv) {
-
-   if (argc < 1 || argc > 2) return INVALID_ARGS;
-   if (pjtop >= P_MAX) return PROJ_LIMIT;
-   if (find_idx(argv[0]) != P_MAX + 1) return PROJ_EXISTS;
-
-   const int pstat = argc == 2 ? atoi(argv[1]) : 0;
-
-   if (pstat > 4 || pstat < 0) return ADD_INVALID_STATUS;
-
-   const size_t nsize = strlen(argv[0]);
-   for (size_t i = 0; i < nsize; i++) {
-      if (argv[0][i] == ' ') argv[0][i] = '_';
-   }
-
-   PROJECT to_ins;
-   to_ins.name = malloc((nsize + 1) * sizeof(char));
-   to_ins.status = pstat;
-   to_ins.valid = 1;
-
-   strcpy(to_ins.name, argv[0]);
-
-   projects[pjtop++] = to_ins;
-
-   return OK;
-}
-
-int remove_proj(int argc, char** argv) {
-
-   if (argc != 1) return INVALID_ARGS;
-
-   size_t index = find_idx(argv[0]);
-
-   if (index == P_MAX + 1) return PROJ_DNE;
-
-   if (p_curr == index) p_curr = P_MAX + 1;
-
-   projects[index].valid = 0;
-   
-   return OK;
-}
-
-int pd_proj(int argc, char** argv, int type) {
-
-   if (argc < 1 || argc > 2) return INVALID_ARGS;
-
-   const int amount = argc == 2 ? atoi(argv[1]) : 1;
-   const size_t index = find_idx(argv[0]);
-
-   if (index == P_MAX + 1) return PROJ_DNE;
-
-   int new_status = type == 0 ? 
-      projects[index].status + amount :
-      projects[index].status - amount;
-
-   if (new_status < 0) return PD_MIN;
-   if (new_status > 4) return PD_MAX;
-
-   projects[index].status = new_status;
-
-   return OK;
-}
-
-int clear(int argc, char** argv) {
-
-   if (argc > 1) return INVALID_ARGS;
-
-   const int clear_stat = argc == 1 ? atoi(argv[0]) : -1;
-
-   if (clear_stat == -1) {
-      print_err(E_WARN, "You are about to clear all projects.");
-      print_err(E_WARNC, "Type in \"CONFIRM\" to continue.");
-
-      char input[100];
-      printf("> ");
-      scanf("%s", &input);
-
-      if (strcmp(input, "CONFIRM") != 0) return OK;
-   }
-
-   for (size_t i = 0; i < pjtop; i++) {
-      if (clear_stat == -1 || projects[i].status == clear_stat) {
-         projects[i].valid = 0;
-      }
-   }
-
-   return OK;
-}
-
-int get(int argc, char** argv) {
-
-   if (argc == 0) return INVALID_ARGS;
-
-   for (int i = 0; i < argc; i++) {
-      print_proj(argv[i], P_MAX + 2);
-   }
-
-   return OK;
-}
-
-int rename_proj(int argc, char** argv) {
-
-   if (argc != 2) return INVALID_ARGS;
-
-   const int index = find_idx(argv[0]);
-   
-   if (index == P_MAX + 1) return PROJ_DNE;
-
-   projects[index].name = realloc(projects[index].name, (strlen(argv[1]) + 1) * sizeof(char));
-
-   strcpy(projects[index].name, argv[1]);
-
-   return OK;
-}
-
-int list(int argc, char** argv, int type) {
-
-   if (argc > 1) return INVALID_ARGS;
-
-   const int pstat = argc == 1 ? atoi(argv[0]) : -1;
-
-   void (*pfunc[2])(char*, size_t) = { print_proj, print_projl };
-
-   for (size_t i = 0; i < pjtop; i++) {
-      if (projects[i].valid == 1 && projects[i].status >= pstat) {
-         (*pfunc[type])(projects[i].name, i);
-      }
-   }
-
-   return OK;
-}
-
-int set_curr(int argc, char** argv) {
-
-   if (argc != 1) return INVALID_ARGS;
-
-   size_t index = find_idx(*argv);
-
-   if (index == P_MAX + 1) return PROJ_DNE;
-
-   p_curr = index;
-
-   return OK;
-}
-
-int get_curr(int argc, char** argv) {
-
-   if (argc != 0) return INVALID_ARGS;
-
-   if (p_curr == P_MAX + 1) {
-      print_err(E_NOTE, "There is no current task.");
-      return OK;
-   }
-
-   printf(C_CUR "Current Task: " C_RST "%s\n", projects[p_curr].name);
-
-   return OK;
-}
-
-int unset_curr(int argc, char** argv) {
-   if (argc != 0) return INVALID_ARGS;
-   p_curr = P_MAX + 1;
-   return OK;
-}
-
 int main(int argc, char** argv) {
 
    if (argc < 2) {
@@ -288,7 +123,7 @@ int main(int argc, char** argv) {
    else if (argcmp(cmd, CMD_RCR, CMD_RCR_A)) status = unset_curr(argc, argv);
    else if (argcmp(cmd, CMD_CLR, CMD_CLR_A)) status = clear(argc, argv);
    else if (argcmp(cmd, CMD_RNM, CMD_RNM_A)) status = rename_proj(argc, argv);
-   else if (argcmp(cmd, CMD_VER, CMD_VER_A)) puts("PMang v" VERSION);
+   else if (argcmp(cmd, CMD_VER, CMD_VER_A)) puts("Pmang v" VERSION);
    else if (argcmp(cmd, CMD_HLP, CMD_HLP_A)) puts(MANUAL);
    else if (argcmp(cmd, CMD_RBD, CMD_RBD_A)) {
       int r = system(BUILD_CMD);

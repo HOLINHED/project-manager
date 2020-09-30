@@ -85,5 +85,7 @@ int main(int argc, char** argv) {
    fprintf(file, "\"╚══════════════╩══════════════════════════════════════════════════════════════╝\"\n\n");
    fprintf(file, "#endif");
 
+   fclose(file);
+
    return 0;
 }
